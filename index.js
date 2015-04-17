@@ -7,7 +7,7 @@ var credentials = {
 	client_id: '92GAdGEj29p9Ms5BbJvP1HeYLfcPeJQn',
 	client_secret: 's3vdC6LDRnuPVQYI8HHrZfInKmJpYLBq',
 	redirect_uri: 'https://emoji-playlist.herokuapp.com/callback',
-	domain: 'http://new.onetune.fm'
+	domain: 'https://new.onetune.fm'
 }
 
 app.engine('html', swig.renderFile);
