@@ -4,9 +4,9 @@ var swig = require('swig');
 var req = require('request');
 
 var credentials = {
-	client_id: 'oPbqwKncQOgX3EYSOJhSfgezKzRNdPg1',
-	client_secret: 'PKbNtF8DvXLtFtcxsNieEzlFPPsRYLfN',
-	redirect_uri: 'http://127.0.0.1:3000/callback',
+	client_id: '92GAdGEj29p9Ms5BbJvP1HeYLfcPeJQn',
+	client_secret: 's3vdC6LDRnuPVQYI8HHrZfInKmJpYLBq',
+	redirect_uri: 'https://emoji-playlist.herokuapp.com/callback',
 	domain: 'http://new.onetune.fm'
 }
 
