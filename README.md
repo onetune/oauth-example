@@ -1,3 +1,5 @@
+Live demo: https://emoji-playlist.herokuapp.com/
+
 # oauth-example
 This is an example on how to use the onetune.fm OAuth API for creating apps. It is written in node.js but you can use any language you want. 
 
@@ -72,3 +74,47 @@ req.post(credentials.domain + '/api/v2/oauth/token', {
 		});
 ````
 
+## 5. Do stuff with the API!
+You can now make requests to the onetune.fm API using the access_token (APi documentation coming soon). Check out the code in `views/select.html` to see an example. 
+
+Creating a playlist using the onetune.fm API:
+
+````javascript
+function createPlaylist(emoji, key, callback) {
+	$.ajax({
+		url: 'http://new.onetune.fm/api/v2/playlist/create',
+			data: {
+				'access_token': access_token,
+				'name': 'My playlist',
+				'public': true
+			},
+			type: 'POST',
+			success: function (data) {
+				callback(data)
+			},
+			statusCode: {
+				409: function() {
+					console.log('Cannot continue. The playlist already exists.');
+				}
+			}
+		})
+	}
+````
+
+Adding new tracks to the playlist: 
+````javascript
+function addTracksToPlaylist(song_ids, playlist_id) {
+	$.ajax({
+		url: 'http://new.onetune.fm/api/v2/playlist/' + playlist_id + '/add',
+		type: 'POST',
+		data: {
+			'access_token': access_token,
+			// itunes, youtube and soundcloud ids all work
+			'tracks': ['938032045','soundcloud:tracks:193781466', 'EpJtK7sDZqI']
+		},
+		success: function () {
+			console.log('Added tracks to the playlist. The onetune.fm API works!');
+		}
+	})
+}
+````
