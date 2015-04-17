@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Emoji playlist</title>
+	<link href="/emoji/emoji.css" rel="stylesheet" type="text/css" />
+	<script src="/emoji/emoji.js"></script>
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:600,400,300">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+</head>
+<body>
+	<header>
+		<div class="header-content">
+			<h1>Success!</h1>
+			<p>You've logged in using the onetune.fm api. Now choose an emoji!</p>
+		</div>
+	</header>
+	<div id="emoji-map"></div>
+	<script>
+		var access_token = "{{token}}"
+		function search(emoji, key, callback) {
+			$.ajax({
+				url: 'https://itunes.apple.com/search',
+				data: {
+					'term': key[1],
+					'entity': 'song'
+				},
+				dataType: 'jsonp',
+				success: function (itunes) {
+					callback(itunes)
+				}
+			})
+		}
+		function createPlaylist(emoji, key, callback) {
+			$.ajax({
+				url: '{{credentials.domain}}/api/v2/playlist/create',
+				data: {
+					'access_token': access_token,
+					'name': key[1] + emoji,
+					'public': true
+				},
+				type: 'POST',
+				success: function (data) {
+					callback(data)
+				},
+				statusCode: {
+					409: function() {
+						log('Cannot continue. The playlist already exists.');
+					}
+				}
+			})
+		}
+		function addTracksToPlaylist(song_ids, playlist_id) {
+			$.ajax({
+				url: '{{credentials.domain}}/api/v2/playlist/' + playlist_id + '/add',
+				type: 'POST',
+				data: {
+					'access_token': access_token,
+					'tracks': song_ids
+				},
+				success: function () {
+					log('Added tracks to the playlist. The onetune.fm API works!');
+				}
+			})
+		}
+		function log(text) {
+			$('#emoji-map').append(text + '<br>')
+		}
+		$.each(jEmoji.EMOJI_MAP, function (emoji, key) {
+			var div = $('<div class="onetune-emoji">');
+			div.html(jEmoji.unifiedToHTML(emoji))
+			$('#emoji-map').append(div)
+			div.on('click', function () {
+				$('.onetune-emoji').remove();
+				log('Selected "' + key[1] + '" ' + jEmoji.unifiedToHTML(emoji));
+				search(emoji, key, function (itunes) {
+					log('Found ' + itunes.resultCount + ' results')
+					createPlaylist(emoji, key, function (data) {
+						var song_ids = [];
+						itunes.results.forEach(function (value, key) {
+							song_ids.push(value.trackId)
+						});
+						log('<a href="{{credentials.domain}}' + data.playlist.url + '" target="_blank">Playlist created. Click here to see it.</a>');
+						log('Searching for matching tracks...');
+
+						addTracksToPlaylist(song_ids, data.playlist._id)
+					})
+				});
+			});
+		});
+	</script>
+	<style>
+		body {
+			margin: 0;
+			font-family: 'Open Sans', sans-serif;
+		}
+		header {
+			background: #f84a4a;
+			color: white;
+			padding-top: 100px;
+			padding-bottom: 100px;
+			margin-bottom: 20px;
+		}
+		header h1 {
+			margin-top: 0;
+		}
+		.header-content {
+			margin: auto;
+			max-width: 900px;
+		}
+		#emoji-map {
+			max-width: 900px;
+			margin: auto;
+		}
+		.onetune-emoji {
+			display: inline-block;
+			margin: 5px;
+		}
+	</style>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Emoji Playlist</title>
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:600,400,300">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+</head>
+<body>
+	<header>
+		<div class="header-content">
+			<h1>Create playlists based on Emojis!</h1>
+			<p>First, login with onetune.fm:</p>
+			<a class="login-button" href="{{domain}}/api/v2/oauth/authorize?client_id={{client_id}}&redirect_uri={{redirect_uri}}"><div>Login with one<strong>tune</strong>.fm</div></a>
+		</div>
+	</header>
+
+	<style>
+		body {
+			margin: 0;
+			font-family: 'Open Sans', sans-serif;
+		}
+		header {
+			background: rgba(0,0,0,0.1);
+			padding-top: 100px;
+			padding-bottom: 100px;
+			margin-bottom: 20px;
+			text-align: center;
+		}
+		.header-content {
+			max-width: 900px;
+			margin: auto;
+		}
+		.login-button div {
+			display: inline-block;
+			padding: 8px 40px;
+			border-radius: 20px;
+			background: #f84a4a;
+		}
+		.login-button:hover {
+			opacity: 0.9;
+		}
+		a {
+			color: white;
+		}
+	</style>
+</body>
+</html>

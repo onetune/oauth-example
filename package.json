@@ -1,0 +1,28 @@
+{
+  "name": "oauth-example",
+  "version": "1.0.0",
+  "description": "A onetune.fm oauth example",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/onetune/oauth-example.git"
+  },
+  "keywords": [
+    "onetune",
+    "onetunefm",
+    "oauth"
+  ],
+  "author": "Jonny Burger",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/onetune/oauth-example/issues"
+  },
+  "homepage": "https://github.com/onetune/oauth-example",
+  "dependencies": {
+    "express": "^4.12.3",
+    "request": "^2.55.0"
+  }
+}
